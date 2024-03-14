@@ -9,6 +9,7 @@ using System;
 public class TCPReceiver : MonoBehaviour
 {
     [SerializeField] HostGameplay _hostGameplay;
+    [SerializeField] ClientManager _clientManager;
     string ip = "192.168.0.240";
     TcpListener server;
     TcpClient client;
@@ -56,6 +57,10 @@ public class TCPReceiver : MonoBehaviour
             {
                 CheckMessageData(split[1], split[2]);
             }
+            if (split[0] == "QuestionIndex")
+            {
+                CheckMessageData(split[1], split[2]);
+            }
         }
     }
 
@@ -74,6 +79,17 @@ public class TCPReceiver : MonoBehaviour
                 case "ClientEntered":
                     _hostGameplay.ClientEntered();
                     Debug.Log("ClientEntered server");
+                    break;
+                case "ChangeToInstructions":
+                    _clientManager.InstructionUI();
+                    Debug.Log("ChangeToInstructions server");
+                    break;
+                case "ReadyToPlay":
+                    Debug.Log("ReadyToPlay server");
+                    break;
+                case "Questions":
+                    _hostGameplay.GetQuestions(Convert.ToInt32(client));
+                    Debug.Log("QuestionIndex server");
                     break;
                 default:
                     break;

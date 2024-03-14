@@ -85,4 +85,46 @@ public static class TCPEmiter
             Debug.Log("Error: " + e.ToString());
         }
     }
+
+    public static void SendInstructions(string player, bool readyToPlay)
+    {
+        try
+        {
+            client = new TcpClient(ip, port);
+            NetworkStream stream = client.GetStream();
+
+            string datos = "Entered|" + player + "|" + readyToPlay + "|";
+            byte[] dataBytes = Encoding.UTF8.GetBytes(datos);
+
+            stream.Write(dataBytes, 0, dataBytes.Length);
+            client.Close();
+
+            Debug.Log("Mensaje enviado");
+        }
+        catch (Exception e)
+        {
+            Debug.Log("Error: " + e.ToString());
+        }
+    }
+
+    public static void SendQuestionIndex (string player, int questionIndex)
+    {
+        try
+        {
+            client = new TcpClient(ip, port);
+            NetworkStream stream = client.GetStream();
+
+            string datos = "QuestionIndex|" + player + "|" + questionIndex + "|";
+            byte[] dataBytes = Encoding.UTF8.GetBytes(datos);
+
+            stream.Write(dataBytes, 0, dataBytes.Length);
+            client.Close();
+
+            Debug.Log("Mensaje enviado");
+        }
+        catch (Exception e)
+        {
+            Debug.Log("Error: " + e.ToString());
+        }
+    }
 }
